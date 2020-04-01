@@ -1,0 +1,108 @@
+<!doctype html><html><head>
+  <meta charset="utf8">
+  <title>Factura</title>
+  <script src="factura.js"></script>
+  <style>
+    #app h2 {
+      margin-bottom:0;
+    }
+    #app fieldset {
+      border-width:1px;
+    }
+    #app fieldset legend {
+      font-weight:bold;
+      font-size:large;
+    }
+    #app table {
+      border-collapse:collapse;
+    }
+    #app #top{
+      display:grid;
+      grid-template-columns:20% 30% 50%;
+    }
+    #app th {
+      text-align:left;
+      vertical-align:top;
+    }
+    #app .number {
+      font-family:monospace;
+      text-align:right;
+    }
+  </style>
+  <!--
+    VUE JS development version, includes helpful console warnings
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    VUE JS production version, optimized for size and speed
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head><body>
+
+<!--vue template-->
+<div id="app">
+  <div id="top">
+    <!--dades empresa-->
+    <div>
+      <h2>Lluís Mª Bosch Lladó</h2>
+      holalluis@gmail.com<br>
+      677 62 63 63<br>
+      C/Ponent 33, 17160 Anglès (Girona)<br>
+      NIF 40364541-R<br>
+    </div>
+
+    <!--dades factura-->
+    <fieldset>
+      <legend>FACTURA</legend>
+      <table>
+        <tr><th>Nº factura   <td>{{factura.num}}
+        <tr><th>Data factura <td>{{factura.data}}
+        <tr><th>Codi client  <td>{{factura.codi_client}}
+        <tr><th>Pàgines      <td>{{factura.pagines}}
+      </table>
+    </fieldset>
+
+    <!--dades client-->
+    <fieldset>
+      <legend>CLIENT</legend>
+      <table>
+        <tr><th>Nom      <td>{{factura.client.nom}}
+        <tr><th>NIF      <td>{{factura.client.nif}}
+        <tr><th>Telèfon  <td>{{factura.client.tel}}
+        <tr><th>Direcció
+          <td>
+            <div v-for="str in factura.client.direccio" v-html="str"></div>
+          </td>
+        <tr><th>CP       <td>{{factura.client.cp}}
+        <tr><th>Població <td>{{factura.client.poblacio}}
+      </table>
+    </fieldset>
+  </div>
+
+  <!--articles, imports, subtotals, impostos i total-->
+  <table border=1 style="margin:auto;margin-top:2em">
+    <tr><th>Descripció<th>Preu<th>Import
+    <tr v-for="article in factura.articles">
+      <td>{{article.descr}}
+      <td class=number>{{article.preu}} €
+      <td class=number>{{article.import}} €
+    </tr>
+    <tr><th><th>Subtotal<td class=number>{{Math.round(subtotal()) }} €
+    <tr><th><th>+IVA 21% <td class=number>{{Math.round(iva())      }} €
+    <tr><th><th>-IRPF 7% <td class=number>{{Math.round(irpf())     }} €
+    <tr><th><th>TOTAL   <td class=number>{{Math.round(total())    }} €
+    <!--
+    <tr><th><th>A PAGAR <td class=number><b>{{Math.round(total()/2) }} €</b><br>(pagament 2/2 del 50%)
+    -->
+  </table>
+
+  <!--observacions-->
+  <div style="margin-top:3em" v-if="factura.observacions.length">
+    <b><u>Observacions</u></b>
+    <ul>
+      <li v-for="observacio in factura.observacions">
+        {{observacio}}
+      </li>
+    </ul>
+  </div>
+</div>
+<!--vue app--><script src="app.js"></script>
