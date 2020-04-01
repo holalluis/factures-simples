@@ -8,4 +8,4 @@ Web molt senzilla per generar factures
 
 ## Screenshot
 
-![Imatge factura](https://octodex.github.com/images/yaktocat.png)
+![Imatge factura](https://raw.githubusercontent.com/holalluis/factures-simples/master/screenshot.png)
